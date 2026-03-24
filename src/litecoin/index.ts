@@ -1,13 +1,22 @@
-import type { IChainPlugin } from "@wopr-network/platform-core/crypto-plugin";
+import type { IChainPlugin, WatcherOpts } from "@wopr-network/platform-core/crypto-plugin";
+
+import { createRpcFromOpts } from "../shared/utxo/index.js";
+import { createUtxoWatcher } from "../shared/utxo/watcher.js";
+import { bech32Encoder } from "./encoder.js";
+
+export { bech32Encoder } from "./encoder.js";
 
 export const litecoinPlugin: IChainPlugin = {
 	pluginId: "litecoin",
 	supportedCurve: "secp256k1",
-	encoders: {},
-	createWatcher: () => {
-		throw new Error("Not implemented");
+	encoders: {
+		bech32: bech32Encoder,
 	},
-	createSweeper: () => {
+	createWatcher(opts: WatcherOpts) {
+		const rpc = createRpcFromOpts(opts.rpcUrl, opts.rpcHeaders);
+		return createUtxoWatcher(opts, rpc);
+	},
+	createSweeper() {
 		throw new Error("Not implemented");
 	},
 	version: 1,

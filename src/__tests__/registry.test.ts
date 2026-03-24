@@ -5,7 +5,7 @@ import { bitcoinPlugin, dogecoinPlugin, evmPlugin, litecoinPlugin, solanaPlugin,
 const allPlugins: IChainPlugin[] = [evmPlugin, bitcoinPlugin, litecoinPlugin, dogecoinPlugin, tronPlugin, solanaPlugin];
 
 /** Plugin IDs that have real createWatcher implementations. */
-const implementedIds = new Set(["evm", "bitcoin"]);
+const implementedIds = new Set(["evm", "bitcoin", "litecoin", "dogecoin", "tron"]);
 
 /** Plugins that still have stub watcher/sweeper implementations. */
 const stubPlugins = allPlugins.filter((p) => !implementedIds.has(p.pluginId));

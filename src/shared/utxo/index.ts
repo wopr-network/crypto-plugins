@@ -8,5 +8,5 @@ export type {
 	TxDetail,
 	UtxoNodeConfig,
 } from "./types.js";
-export { UtxoWatcher, createUtxoWatcher } from "./watcher.js";
 export type { UtxoWatcherConfig } from "./watcher.js";
+export { createUtxoWatcher, UtxoWatcher } from "./watcher.js";

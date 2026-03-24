@@ -1,8 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
-
+import { createMockCursorStore, createMockOracle } from "../shared/test-helpers/index.js";
 import type { RpcCall } from "../shared/utxo/types.js";
 import { UtxoWatcher } from "../shared/utxo/watcher.js";
-import { createMockCursorStore, createMockOracle } from "../shared/test-helpers/index.js";
 
 function createTestWatcher(rpc: RpcCall, opts?: { confirmations?: number; token?: string; chain?: string }) {
 	const cursorStore = createMockCursorStore();
