@@ -2,6 +2,9 @@
 	"name": "@wopr-network/crypto-plugins",
 	"version": "0.1.0",
 	"type": "module",
+	"bin": {
+		"crypto-sweep": "dist/sweep/index.js"
+	},
 	"scripts": {
 		"build": "tsc",
 		"test": "vitest run",
@@ -22,12 +25,16 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.8",
+		"@types/node": "^25.5.0",
 		"@wopr-network/platform-core": "^1.65.0",
 		"typescript": "^6.0.2",
 		"vitest": "^4.1.1"
 	},
 	"dependencies": {
 		"@noble/curves": "^2.0.1",
-		"@noble/hashes": "^2.0.1"
+		"@noble/hashes": "^2.0.1",
+		"@scure/bip32": "^2.0.1",
+		"@scure/bip39": "^2.0.1",
+		"viem": "^2.30.0"
 	}
 }
