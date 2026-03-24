@@ -37,5 +37,8 @@
 		"@scure/bip32": "^2.0.1",
 		"@scure/bip39": "^2.0.1",
 		"viem": "^2.30.0"
+	},
+	"release": {
+		"extends": "@wopr-network/semantic-release-config"
 	}
 }
