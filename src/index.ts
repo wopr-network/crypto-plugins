@@ -6,9 +6,9 @@ export {
 	base58Encode,
 	createSolanaRpcCaller,
 	SolanaAddressEncoder,
-	solanaPlugin,
 	SolanaSweeper,
 	SolanaWatcher,
+	solanaPlugin,
 } from "./solana/index.js";
 export {
 	encodeKeccakB58Address,
