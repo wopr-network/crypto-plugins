@@ -25,5 +25,9 @@
 		"@wopr-network/platform-core": "^1.65.0",
 		"typescript": "^6.0.2",
 		"vitest": "^4.1.1"
+	},
+	"dependencies": {
+		"@noble/curves": "^2.0.1",
+		"@noble/hashes": "^2.0.1"
 	}
 }

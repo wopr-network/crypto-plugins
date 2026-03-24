@@ -4,6 +4,15 @@ import { bitcoinPlugin, dogecoinPlugin, evmPlugin, litecoinPlugin, solanaPlugin,
 
 const allPlugins: IChainPlugin[] = [evmPlugin, bitcoinPlugin, litecoinPlugin, dogecoinPlugin, tronPlugin, solanaPlugin];
 
+/** Plugin IDs that have real createWatcher implementations. */
+const implementedIds = new Set(["evm", "bitcoin"]);
+
+/** Plugins that still have stub watcher/sweeper implementations. */
+const stubPlugins = allPlugins.filter((p) => !implementedIds.has(p.pluginId));
+
+/** Plugins with real createWatcher implementations. */
+const implementedPlugins = allPlugins.filter((p) => implementedIds.has(p.pluginId));
+
 describe("Plugin registry", () => {
 	it("all plugins have unique pluginIds", () => {
 		const ids = allPlugins.map((p) => p.pluginId);
@@ -32,8 +41,14 @@ describe("Plugin registry", () => {
 	});
 
 	it("stub createWatcher throws Not implemented", () => {
-		for (const plugin of allPlugins) {
+		for (const plugin of stubPlugins) {
 			expect(() => plugin.createWatcher({} as never)).toThrow("Not implemented");
+		}
+	});
+
+	it("implemented createWatcher does not throw", () => {
+		for (const plugin of implementedPlugins) {
+			expect(() => plugin.createWatcher({} as never)).not.toThrow();
 		}
 	});
 
@@ -41,6 +56,11 @@ describe("Plugin registry", () => {
 		for (const plugin of allPlugins) {
 			expect(() => plugin.createSweeper({} as never)).toThrow("Not implemented");
 		}
+	});
+
+	it("evm plugin has evm encoder", () => {
+		expect(evmPlugin.encoders).toHaveProperty("evm");
+		expect(evmPlugin.encoders.evm.encodingType()).toBe("evm");
 	});
 
 	it("can build a registry map from plugins", () => {
