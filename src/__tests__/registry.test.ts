@@ -1,0 +1,55 @@
+import type { IChainPlugin } from "@wopr-network/platform-core/crypto-plugin";
+import { describe, expect, it } from "vitest";
+import { bitcoinPlugin, dogecoinPlugin, evmPlugin, litecoinPlugin, solanaPlugin, tronPlugin } from "../index.js";
+
+const allPlugins: IChainPlugin[] = [evmPlugin, bitcoinPlugin, litecoinPlugin, dogecoinPlugin, tronPlugin, solanaPlugin];
+
+describe("Plugin registry", () => {
+	it("all plugins have unique pluginIds", () => {
+		const ids = allPlugins.map((p) => p.pluginId);
+		expect(new Set(ids).size).toBe(ids.length);
+	});
+
+	it("all plugins implement IChainPlugin shape", () => {
+		for (const plugin of allPlugins) {
+			expect(plugin.pluginId).toBeTypeOf("string");
+			expect(plugin.supportedCurve).toMatch(/^(secp256k1|ed25519)$/);
+			expect(plugin.encoders).toBeTypeOf("object");
+			expect(plugin.createWatcher).toBeTypeOf("function");
+			expect(plugin.createSweeper).toBeTypeOf("function");
+			expect(plugin.version).toBeTypeOf("number");
+		}
+	});
+
+	it("secp256k1 plugins: evm, bitcoin, litecoin, dogecoin, tron", () => {
+		const secp = allPlugins.filter((p) => p.supportedCurve === "secp256k1");
+		expect(secp.map((p) => p.pluginId).sort()).toEqual(["bitcoin", "dogecoin", "evm", "litecoin", "tron"]);
+	});
+
+	it("ed25519 plugins: solana", () => {
+		const ed = allPlugins.filter((p) => p.supportedCurve === "ed25519");
+		expect(ed.map((p) => p.pluginId)).toEqual(["solana"]);
+	});
+
+	it("stub createWatcher throws Not implemented", () => {
+		for (const plugin of allPlugins) {
+			expect(() => plugin.createWatcher({} as never)).toThrow("Not implemented");
+		}
+	});
+
+	it("stub createSweeper throws Not implemented", () => {
+		for (const plugin of allPlugins) {
+			expect(() => plugin.createSweeper({} as never)).toThrow("Not implemented");
+		}
+	});
+
+	it("can build a registry map from plugins", () => {
+		const registry = new Map<string, IChainPlugin>();
+		for (const plugin of allPlugins) {
+			registry.set(plugin.pluginId, plugin);
+		}
+		expect(registry.size).toBe(6);
+		expect(registry.get("evm")).toBe(evmPlugin);
+		expect(registry.get("solana")).toBe(solanaPlugin);
+	});
+});

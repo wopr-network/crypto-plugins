@@ -1,0 +1,29 @@
+{
+	"name": "@wopr-network/crypto-plugins",
+	"version": "0.1.0",
+	"type": "module",
+	"scripts": {
+		"build": "tsc",
+		"test": "vitest run",
+		"lint": "biome check src/"
+	},
+	"exports": {
+		".": "./dist/index.js",
+		"./evm": "./dist/evm/index.js",
+		"./bitcoin": "./dist/bitcoin/index.js",
+		"./litecoin": "./dist/litecoin/index.js",
+		"./dogecoin": "./dist/dogecoin/index.js",
+		"./tron": "./dist/tron/index.js",
+		"./solana": "./dist/solana/index.js",
+		"./shared/utxo": "./dist/shared/utxo/index.js"
+	},
+	"peerDependencies": {
+		"@wopr-network/platform-core": "*"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.8",
+		"@wopr-network/platform-core": "^1.65.0",
+		"typescript": "^6.0.2",
+		"vitest": "^4.1.1"
+	}
+}
