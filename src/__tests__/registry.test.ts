@@ -5,7 +5,10 @@ import { bitcoinPlugin, dogecoinPlugin, evmPlugin, litecoinPlugin, solanaPlugin,
 const allPlugins: IChainPlugin[] = [evmPlugin, bitcoinPlugin, litecoinPlugin, dogecoinPlugin, tronPlugin, solanaPlugin];
 
 /** Plugin IDs that have real createWatcher implementations. */
-const implementedIds = new Set(["evm", "bitcoin", "litecoin", "dogecoin", "tron"]);
+const implementedIds = new Set(["evm", "bitcoin", "litecoin", "dogecoin", "tron", "solana"]);
+
+/** Plugin IDs that have real createSweeper implementations (don't throw on construction). */
+const sweeperImplementedIds = new Set(["solana"]);
 
 /** Plugins that still have stub watcher/sweeper implementations. */
 const stubPlugins = allPlugins.filter((p) => !implementedIds.has(p.pluginId));
@@ -53,14 +56,27 @@ describe("Plugin registry", () => {
 	});
 
 	it("stub createSweeper throws Not implemented", () => {
-		for (const plugin of allPlugins) {
+		const sweeperStubs = allPlugins.filter((p) => !sweeperImplementedIds.has(p.pluginId));
+		for (const plugin of sweeperStubs) {
 			expect(() => plugin.createSweeper({} as never)).toThrow("Not implemented");
+		}
+	});
+
+	it("implemented createSweeper does not throw", () => {
+		const sweeperImpl = allPlugins.filter((p) => sweeperImplementedIds.has(p.pluginId));
+		for (const plugin of sweeperImpl) {
+			expect(() => plugin.createSweeper({} as never)).not.toThrow();
 		}
 	});
 
 	it("evm plugin has evm encoder", () => {
 		expect(evmPlugin.encoders).toHaveProperty("evm");
 		expect(evmPlugin.encoders.evm.encodingType()).toBe("evm");
+	});
+
+	it("solana plugin has base58-solana encoder", () => {
+		expect(solanaPlugin.encoders).toHaveProperty("base58-solana");
+		expect(solanaPlugin.encoders["base58-solana"].encodingType()).toBe("base58-solana");
 	});
 
 	it("can build a registry map from plugins", () => {
