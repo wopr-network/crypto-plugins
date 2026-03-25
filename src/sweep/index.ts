@@ -27,6 +27,7 @@ import * as bip39 from "@scure/bip39";
 import { wordlist } from "@scure/bip39/wordlists/english.js";
 import type { KeyPair, SweepResult } from "@wopr-network/platform-crypto-server/plugin";
 import { privateKeyToAccount } from "viem/accounts";
+import { SolanaSweeper } from "../solana/sweeper.js";
 import { sha256 } from "../tron/sha256.js";
 import { EvmSweeper, type EvmToken } from "./evm-sweeper.js";
 import { TronSweeper, type TronToken } from "./tron-sweeper.js";
@@ -38,6 +39,7 @@ const CRYPTO_SERVICE_URL = process.env.CRYPTO_SERVICE_URL;
 const CRYPTO_SERVICE_KEY = process.env.CRYPTO_SERVICE_KEY;
 const DRY_RUN = process.env.SWEEP_DRY_RUN !== "false";
 const MAX_INDEX = Number(process.env.MAX_ADDRESSES ?? "200");
+const SUBCOMMAND = process.argv[2]; // "sweep" (default) or "pool-replenish"
 
 // --- Chain server types ---
 
@@ -323,6 +325,47 @@ async function main() {
 			continue;
 		}
 
+		if (family === "solana") {
+			// Solana uses Ed25519 — pre-derived pool keys come from the chain server
+			const rpcUrl = group[0]?.rpc_url;
+			if (!rpcUrl) {
+				console.log("  Skipping solana -- no rpc_url in chain config");
+				continue;
+			}
+
+			// For Solana, fetch pre-derived pool addresses from the chain server
+			console.log(`\n--- Solana (${group.length} tokens) ---`);
+			console.log("  Note: Solana uses Ed25519 pre-derived keys -- sweep requires pool keys from chain server");
+
+			for (const method of group) {
+				const sweeper = new SolanaSweeper({
+					rpcUrl,
+					rpcHeaders: method.rpc_headers ?? {},
+					chain: method.chain,
+					token: method.token,
+					decimals: method.decimals,
+					contractAddress: method.contractAddress ?? undefined,
+				});
+
+				// For Solana, we can't derive keys from the secp256k1 master — skip if no pool keys.
+				// In production, pool keys would be fetched from the chain server's admin API.
+				console.log(`  ${method.token}: scan-only (pool key sweep requires admin/pool/export endpoint)`);
+				try {
+					const deposits = await sweeper.scan([], treasury.address);
+					if (deposits.length > 0) {
+						for (const d of deposits) {
+							console.log(`    [${d.index}] ${d.address}: ${d.nativeBalance} lamports`);
+						}
+					} else {
+						console.log("    No deposits found");
+					}
+				} catch (err) {
+					console.log(`    Scan error: ${(err as Error).message}`);
+				}
+			}
+			continue;
+		}
+
 		console.log(`  Skipping ${family} -- no sweeper implemented`);
 	}
 
@@ -347,7 +390,62 @@ async function main() {
 	console.log("\nDone.");
 }
 
-main().catch((err) => {
-	console.error(err);
-	process.exit(1);
-});
+// --- Pool replenish subcommand ---
+
+async function poolReplenish() {
+	if (!CRYPTO_SERVICE_URL) {
+		console.error("CRYPTO_SERVICE_URL is required");
+		process.exit(1);
+	}
+
+	const count = Number(process.env.POOL_COUNT ?? "100");
+	const chain = process.env.POOL_CHAIN;
+
+	if (!chain) {
+		console.error("POOL_CHAIN is required (e.g. 'solana')");
+		process.exit(1);
+	}
+
+	console.log(`Replenishing ${count} addresses for chain "${chain}"...`);
+
+	const headers: Record<string, string> = { "Content-Type": "application/json" };
+	if (CRYPTO_SERVICE_KEY) headers.Authorization = `Bearer ${CRYPTO_SERVICE_KEY}`;
+
+	const res = await fetch(`${CRYPTO_SERVICE_URL}/admin/pool/replenish`, {
+		method: "POST",
+		headers,
+		body: JSON.stringify({ chain, count }),
+	});
+
+	if (!res.ok) {
+		const body = await res.text();
+		console.error(`Pool replenish failed: ${res.status} ${body}`);
+		process.exit(1);
+	}
+
+	const result = (await res.json()) as { added: number; total: number };
+	console.log(`Added ${result.added} addresses (total pool: ${result.total})`);
+
+	// Check pool status
+	const statusRes = await fetch(`${CRYPTO_SERVICE_URL}/admin/pool/status?chain=${chain}`, { headers });
+	if (statusRes.ok) {
+		const status = (await statusRes.json()) as { available: number; claimed: number; total: number };
+		console.log(`Pool status: ${status.available} available, ${status.claimed} claimed, ${status.total} total`);
+	}
+
+	console.log("Done.");
+}
+
+// --- Entry point ---
+
+if (SUBCOMMAND === "pool-replenish") {
+	poolReplenish().catch((err) => {
+		console.error(err);
+		process.exit(1);
+	});
+} else {
+	main().catch((err) => {
+		console.error(err);
+		process.exit(1);
+	});
+}
