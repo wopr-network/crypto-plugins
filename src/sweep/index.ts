@@ -36,7 +36,7 @@ import { UtxoSweeper } from "./utxo-sweeper.js";
 // --- Config ---
 
 const CRYPTO_SERVICE_URL = process.env.CRYPTO_SERVICE_URL;
-const CRYPTO_SERVICE_KEY = process.env.CRYPTO_SERVICE_KEY;
+const CRYPTO_SERVICE_KEY = process.env.CRYPTO_ADMIN_KEY ?? process.env.CRYPTO_SERVICE_KEY;
 const DRY_RUN = process.env.SWEEP_DRY_RUN !== "false";
 const MAX_INDEX = Number(process.env.MAX_ADDRESSES ?? "200");
 const SUBCOMMAND = process.argv[2]; // "sweep" (default) or "pool-replenish"
@@ -88,21 +88,13 @@ function base58encode(data: Uint8Array): string {
 	return encoded;
 }
 
-// secp256k1.ProjectivePoint for point decompression
-const ProjectivePoint = (
-	secp256k1 as unknown as {
-		ProjectivePoint: {
-			fromHex(hex: string): { toRawBytes(compressed: boolean): Uint8Array };
-		};
-	}
-).ProjectivePoint;
-
 function toHex(data: Uint8Array): string {
 	return Array.from(data, (b) => b.toString(16).padStart(2, "0")).join("");
 }
 
 function pubkeyToTronAddress(pubkey: Uint8Array): string {
-	const uncompressed: Uint8Array = ProjectivePoint.fromHex(toHex(pubkey)).toRawBytes(false);
+	// Get uncompressed public key (65 bytes) from compressed (33 bytes)
+	const uncompressed: Uint8Array = secp256k1.Point.fromHex(toHex(pubkey)).toBytes(false);
 	const hash = keccak_256(uncompressed.slice(1));
 	const addressBytes = hash.slice(-20);
 	const payload = new Uint8Array(21);
@@ -315,8 +307,10 @@ async function main() {
 				}));
 
 			console.log(`\n--- Tron (${tokens.length} TRC-20 tokens) ---`);
+			// Tron watcher uses /jsonrpc, but sweeper uses the HTTP API at the base URL
+			const tronBaseUrl = rpcUrl.replace(/\/jsonrpc\/?$/, "");
 			const sweeper = new TronSweeper({
-				rpcUrl,
+				rpcUrl: tronBaseUrl,
 				apiKey: group[0]?.rpc_headers?.["TRON-PRO-API-KEY"],
 				tokens,
 			});

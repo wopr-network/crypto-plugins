@@ -21,15 +21,6 @@ const TRX_TRANSFER_COST = 1_100_000n;
 // Energy needed for TRC-20 transfer (~15 TRX in SUN, conservative)
 const TRC20_ENERGY_COST = 15_000_000n;
 
-// secp256k1.ProjectivePoint for point decompression
-const ProjectivePoint = (
-	secp256k1 as unknown as {
-		ProjectivePoint: {
-			fromHex(hex: string): { toRawBytes(compressed: boolean): Uint8Array };
-		};
-	}
-).ProjectivePoint;
-
 export interface TronToken {
 	name: string;
 	contractAddress: string; // T... base58 address
@@ -96,7 +87,7 @@ function fromHex(hex: string): Uint8Array {
 // --- Address helpers ---
 
 function pubkeyToTronAddress(pubkey: Uint8Array): string {
-	const uncompressed: Uint8Array = ProjectivePoint.fromHex(toHex(pubkey)).toRawBytes(false);
+	const uncompressed: Uint8Array = secp256k1.Point.fromHex(toHex(pubkey)).toBytes(false);
 	const hash = keccak_256(uncompressed.slice(1));
 	const addressBytes = hash.slice(-20);
 	const payload = new Uint8Array(21);
@@ -244,15 +235,28 @@ export class TronSweeper implements ISweepStrategy {
 		signature: string[];
 	} {
 		const txHash = fromHex(tx.txID);
-		// secp256k1.sign returns RecoveredSignature with toCompactRawBytes() and recovery
-		const sig = secp256k1.sign(txHash, privateKey, { lowS: true }) as unknown as {
-			toCompactRawBytes(): Uint8Array;
-			recovery: number;
-		};
+		// noble/curves v2: sign() returns Uint8Array(64)
+		// recoverPublicKey(sig65, msg) where sig65 = r(32) + s(32) + recovery(1)
+		const compactSig = secp256k1.sign(txHash, privateKey, { lowS: true });
+		const pubkey = secp256k1.getPublicKey(privateKey, true);
+		// Try recovery 0 and 1 to find which matches our pubkey
+		let recovery = 0;
+		for (let v = 0; v < 2; v++) {
+			const sig65 = new Uint8Array(65);
+			sig65.set(compactSig, 0);
+			sig65[64] = v;
+			try {
+				const recovered = secp256k1.recoverPublicKey(sig65, txHash);
+				if (toHex(recovered) === toHex(pubkey)) {
+					recovery = v;
+					break;
+				}
+			} catch {}
+		}
 		// Tron signature = r (32) + s (32) + recovery (1)
 		const sigBytes = new Uint8Array(65);
-		sigBytes.set(sig.toCompactRawBytes(), 0);
-		sigBytes[64] = sig.recovery;
+		sigBytes.set(compactSig, 0);
+		sigBytes[64] = recovery;
 		return { ...tx, signature: [toHex(sigBytes)] };
 	}
 
