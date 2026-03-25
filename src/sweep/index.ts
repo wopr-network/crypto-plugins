@@ -198,14 +198,14 @@ async function main() {
 		process.exit(1);
 	}
 
-	// Fetch enabled payment methods from chain server
-	console.log(`Fetching chains from ${CRYPTO_SERVICE_URL}/chains...`);
+	// Fetch full payment method records from admin endpoint (includes rpc_url, coin_type, etc.)
+	console.log(`Fetching chains from ${CRYPTO_SERVICE_URL}/admin/chains...`);
 	const headers: Record<string, string> = {
 		"Content-Type": "application/json",
 	};
 	if (CRYPTO_SERVICE_KEY) headers.Authorization = `Bearer ${CRYPTO_SERVICE_KEY}`;
 
-	const res = await fetch(`${CRYPTO_SERVICE_URL}/chains`, { headers });
+	const res = await fetch(`${CRYPTO_SERVICE_URL}/admin/chains`, { headers });
 	if (!res.ok) throw new Error(`Chain server returned ${res.status}`);
 
 	const methods: ChainMethod[] = await res.json();
