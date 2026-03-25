@@ -3,7 +3,7 @@ import type {
 	IWatcherCursorStore,
 	PaymentEvent,
 	WatcherOpts,
-} from "@wopr-network/platform-core/crypto-plugin";
+} from "@wopr-network/platform-crypto-server/plugin";
 import type { SignatureInfo, SolanaRpcCall, SolanaTransaction } from "./types.js";
 
 /** Microdollars per cent. Used for oracle price conversion. */

@@ -6,7 +6,7 @@
  *   2. Fund gas -- treasury sends ETH to ERC-20 deposit addresses
  *   3. Sweep ERC-20s -- deposit addresses send all tokens to treasury
  */
-import type { DepositInfo, ISweepStrategy, KeyPair, SweepResult } from "@wopr-network/platform-core/crypto-plugin";
+import type { DepositInfo, ISweepStrategy, KeyPair, SweepResult } from "@wopr-network/platform-crypto-server/plugin";
 import {
 	type Address,
 	type Chain,

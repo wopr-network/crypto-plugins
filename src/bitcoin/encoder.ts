@@ -1,4 +1,4 @@
-import type { EncodingParams, IAddressEncoder } from "@wopr-network/platform-core/crypto-plugin";
+import type { EncodingParams, IAddressEncoder } from "@wopr-network/platform-crypto-server/plugin";
 
 // ---------- bech32 encoding (pure implementation, no external deps) ----------
 

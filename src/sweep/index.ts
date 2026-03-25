@@ -25,7 +25,7 @@ import { keccak_256 } from "@noble/hashes/sha3.js";
 import { HDKey } from "@scure/bip32";
 import * as bip39 from "@scure/bip39";
 import { wordlist } from "@scure/bip39/wordlists/english.js";
-import type { KeyPair, SweepResult } from "@wopr-network/platform-core/crypto-plugin";
+import type { KeyPair, SweepResult } from "@wopr-network/platform-crypto-server/plugin";
 import { privateKeyToAccount } from "viem/accounts";
 import { sha256 } from "../tron/sha256.js";
 import { EvmSweeper, type EvmToken } from "./evm-sweeper.js";

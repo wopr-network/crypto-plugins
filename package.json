@@ -22,12 +22,12 @@
 		"./shared/utxo": "./dist/shared/utxo/index.js"
 	},
 	"peerDependencies": {
-		"@wopr-network/platform-core": "*"
+		"@wopr-network/platform-crypto-server": "*"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.8",
 		"@types/node": "^25.5.0",
-		"@wopr-network/platform-core": "^1.65.0",
+		"@wopr-network/platform-crypto-server": "^0.1.0",
 		"typescript": "^6.0.2",
 		"vitest": "^4.1.1"
 	},

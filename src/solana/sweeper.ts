@@ -4,7 +4,7 @@ import type {
 	KeyPair,
 	SweeperOpts,
 	SweepResult,
-} from "@wopr-network/platform-core/crypto-plugin";
+} from "@wopr-network/platform-crypto-server/plugin";
 import type { SolanaRpcCall } from "./types.js";
 import { createSolanaRpcCaller } from "./watcher.js";
 

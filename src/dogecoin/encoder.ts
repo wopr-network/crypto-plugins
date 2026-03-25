@@ -1,4 +1,4 @@
-import type { EncodingParams, IAddressEncoder } from "@wopr-network/platform-core/crypto-plugin";
+import type { EncodingParams, IAddressEncoder } from "@wopr-network/platform-crypto-server/plugin";
 
 import { hash160 } from "../bitcoin/encoder.js";
 

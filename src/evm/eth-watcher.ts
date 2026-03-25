@@ -4,7 +4,7 @@ import type {
 	IWatcherCursorStore,
 	PaymentEvent,
 	WatcherOpts,
-} from "@wopr-network/platform-core/crypto-plugin";
+} from "@wopr-network/platform-crypto-server/plugin";
 import type { RpcCall, RpcTransaction } from "./types.js";
 import { createRpcCaller } from "./watcher.js";
 

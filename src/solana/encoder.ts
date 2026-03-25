@@ -1,4 +1,4 @@
-import type { EncodingParams, IAddressEncoder } from "@wopr-network/platform-core/crypto-plugin";
+import type { EncodingParams, IAddressEncoder } from "@wopr-network/platform-crypto-server/plugin";
 
 /** Base58 alphabet used by Bitcoin/Solana. */
 const ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";

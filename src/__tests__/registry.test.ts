@@ -1,4 +1,4 @@
-import type { IChainPlugin } from "@wopr-network/platform-core/crypto-plugin";
+import type { IChainPlugin } from "@wopr-network/platform-crypto-server/plugin";
 import { describe, expect, it } from "vitest";
 import { bitcoinPlugin, dogecoinPlugin, evmPlugin, litecoinPlugin, solanaPlugin, tronPlugin } from "../index.js";
 
