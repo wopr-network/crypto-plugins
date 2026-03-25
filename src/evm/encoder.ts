@@ -1,6 +1,6 @@
 import { secp256k1 } from "@noble/curves/secp256k1.js";
 import { keccak_256 } from "@noble/hashes/sha3.js";
-import type { EncodingParams, IAddressEncoder } from "@wopr-network/platform-core/crypto-plugin";
+import type { EncodingParams, IAddressEncoder } from "@wopr-network/platform-crypto-server/plugin";
 
 // secp256k1.Point exists at runtime but the ECDSA TS type doesn't expose it.
 // Access via the schnorr sub-object which does have the Point type.

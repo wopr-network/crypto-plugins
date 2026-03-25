@@ -1,4 +1,4 @@
-import type { IChainPlugin, SweeperOpts, WatcherOpts } from "@wopr-network/platform-core/crypto-plugin";
+import type { IChainPlugin, SweeperOpts, WatcherOpts } from "@wopr-network/platform-crypto-server/plugin";
 import { EvmAddressEncoder } from "./encoder.js";
 import { EthWatcher } from "./eth-watcher.js";
 import { EvmWatcher } from "./watcher.js";

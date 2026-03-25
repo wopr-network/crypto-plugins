@@ -3,7 +3,7 @@ import type {
 	IWatcherCursorStore,
 	PaymentEvent,
 	WatcherOpts,
-} from "@wopr-network/platform-core/crypto-plugin";
+} from "@wopr-network/platform-crypto-server/plugin";
 import type { RpcCall, RpcLog } from "./types.js";
 
 const TRANSFER_TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";

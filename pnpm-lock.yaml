@@ -30,9 +30,9 @@ importers:
       '@types/node':
         specifier: ^25.5.0
         version: 25.5.0
-      '@wopr-network/platform-core':
-        specifier: ^1.65.0
-        version: 1.65.0(@trpc/server@11.15.0(typescript@6.0.2))(better-auth@1.5.6(@opentelemetry/api@1.9.0)(drizzle-orm@0.45.1(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(pg@8.20.0)(vitest@4.1.1(@opentelemetry/api@1.9.0)(@types/node@25.5.0)(vite@8.0.2(@types/node@25.5.0)(yaml@2.8.3))))(dockerode@4.0.10)(drizzle-orm@0.45.1(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(hono@4.12.9)(pg@8.20.0)(resend@6.9.4)(stripe@20.4.1(@types/node@25.5.0))(typescript@6.0.2)(ws@8.18.3)(zod@4.3.6)
+      '@wopr-network/platform-crypto-server':
+        specifier: ^1.0.0
+        version: 1.0.0(@opentelemetry/api@1.9.0)(@wopr-network/platform-core@1.67.1(@trpc/server@11.15.0(typescript@6.0.2))(better-auth@1.5.6(@opentelemetry/api@1.9.0)(drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(pg@8.20.0)(vitest@4.1.1(@opentelemetry/api@1.9.0)(@types/node@25.5.0)(vite@8.0.2(@types/node@25.5.0)(yaml@2.8.3))))(dockerode@4.0.10)(drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(hono@4.12.9)(pg@8.20.0)(resend@6.9.4)(stripe@20.4.1(@types/node@25.5.0))(typescript@6.0.2)(ws@8.18.3)(zod@4.3.6))(kysely@0.28.14)(typescript@6.0.2)(zod@4.3.6)
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
@@ -744,8 +744,14 @@ packages:
   '@vitest/utils@4.1.1':
     resolution: {integrity: sha512-cNxAlaB3sHoCdL6pj6yyUXv9Gry1NHNg0kFTXdvSIZXLHsqKH7chiWOkwJ5s5+d/oMwcoG9T0bKU38JZWKusrQ==}
 
-  '@wopr-network/platform-core@1.65.0':
-    resolution: {integrity: sha512-eNnHNdDRw7/+qmuUzu/CVfoqYRqPeEVqNgGdVy8SqIzM1TtLcT4mehBCLsgEOU5Rn30ePjWy3/nS1qDUHgiL3A==}
+  '@wopr-network/crypto-plugins@1.0.1':
+    resolution: {integrity: sha512-fTVlf3fZzEPBILDg9f+XE9iW6WCZXQsJCr9NGykxaoJT4rQGiDU8cZMhQiQacMzx4hbAgbdBDTv7l5eMomQU+Q==}
+    hasBin: true
+    peerDependencies:
+      '@wopr-network/platform-core': '*'
+
+  '@wopr-network/platform-core@1.67.1':
+    resolution: {integrity: sha512-kHhOhpzIe0vqE81tvPyzL1oconaIFjjPOTZvbLMY1F9mAqd8RVMCZaBfWfYdZN0XKC5AqGoZlYsYQQqkNwc9Cg==}
     peerDependencies:
       '@trpc/server': '>=11'
       better-auth: '>=1.5'
@@ -757,6 +763,10 @@ packages:
       stripe: '>=17'
       ws: '>=8'
       zod: '>=3'
+
+  '@wopr-network/platform-crypto-server@1.0.0':
+    resolution: {integrity: sha512-KVklfA5zBlXq9jLAo8X22vLvYZSf4uerTIJp9vKz3WoPCmS9smpXx33puqyPJ63c+kZ28qNWAR3G4i4e/1HHlQ==}
+    hasBin: true
 
   abitype@1.2.3:
     resolution: {integrity: sha512-Ofer5QUnuUdTFsBRwARMoWKOH1ND5ehwYhJ3OJ/BQO+StkwQjHw0XyVh4vDttzHB7QOFhPHa/o413PJ82gU/Tg==}
@@ -943,8 +953,8 @@ packages:
     resolution: {integrity: sha512-8L/P9JynLBiG7/coiA4FlQXegHltRqS0a+KqI44P1zgQh8QLHTg7FKOwhkBgSJwZTeHsq30WRoVFLuwkfK0YFg==}
     engines: {node: '>= 8.0'}
 
-  drizzle-orm@0.45.1:
-    resolution: {integrity: sha512-Te0FOdKIistGNPMq2jscdqngBRfBpC8uMFVwqjf6gtTVJHIQ/dosgV/CLBU2N4ZJBsXL5savCba9b0YJskKdcA==}
+  drizzle-orm@0.44.7:
+    resolution: {integrity: sha512-quIpnYznjU9lHshEOAYLoZ9s3jweleHlZIAWR/jX9gAWNg/JhQ1wj0KGRf7/Zm+obRrYd9GjPVJg790QY9N5AQ==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=4'
@@ -2023,12 +2033,12 @@ snapshots:
       nanostores: 1.2.0
       zod: 4.3.6
 
-  '@better-auth/drizzle-adapter@1.5.6(@better-auth/core@1.5.6(@better-auth/utils@0.3.1)(@better-fetch/fetch@1.1.21)(@opentelemetry/api@1.9.0)(better-call@1.3.2(zod@4.3.6))(jose@6.2.2)(kysely@0.28.14)(nanostores@1.2.0))(@better-auth/utils@0.3.1)(drizzle-orm@0.45.1(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))':
+  '@better-auth/drizzle-adapter@1.5.6(@better-auth/core@1.5.6(@better-auth/utils@0.3.1)(@better-fetch/fetch@1.1.21)(@opentelemetry/api@1.9.0)(better-call@1.3.2(zod@4.3.6))(jose@6.2.2)(kysely@0.28.14)(nanostores@1.2.0))(@better-auth/utils@0.3.1)(drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))':
     dependencies:
       '@better-auth/core': 1.5.6(@better-auth/utils@0.3.1)(@better-fetch/fetch@1.1.21)(@opentelemetry/api@1.9.0)(better-call@1.3.2(zod@4.3.6))(jose@6.2.2)(kysely@0.28.14)(nanostores@1.2.0)
       '@better-auth/utils': 0.3.1
     optionalDependencies:
-      drizzle-orm: 0.45.1(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0)
+      drizzle-orm: 0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0)
 
   '@better-auth/kysely-adapter@1.5.6(@better-auth/core@1.5.6(@better-auth/utils@0.3.1)(@better-fetch/fetch@1.1.21)(@opentelemetry/api@1.9.0)(better-call@1.3.2(zod@4.3.6))(jose@6.2.2)(kysely@0.28.14)(nanostores@1.2.0))(@better-auth/utils@0.3.1)(kysely@0.28.14)':
     dependencies:
@@ -2615,7 +2625,21 @@ snapshots:
       convert-source-map: 2.0.0
       tinyrainbow: 3.1.0
 
-  '@wopr-network/platform-core@1.65.0(@trpc/server@11.15.0(typescript@6.0.2))(better-auth@1.5.6(@opentelemetry/api@1.9.0)(drizzle-orm@0.45.1(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(pg@8.20.0)(vitest@4.1.1(@opentelemetry/api@1.9.0)(@types/node@25.5.0)(vite@8.0.2(@types/node@25.5.0)(yaml@2.8.3))))(dockerode@4.0.10)(drizzle-orm@0.45.1(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(hono@4.12.9)(pg@8.20.0)(resend@6.9.4)(stripe@20.4.1(@types/node@25.5.0))(typescript@6.0.2)(ws@8.18.3)(zod@4.3.6)':
+  '@wopr-network/crypto-plugins@1.0.1(@wopr-network/platform-core@1.67.1(@trpc/server@11.15.0(typescript@6.0.2))(better-auth@1.5.6(@opentelemetry/api@1.9.0)(drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(pg@8.20.0)(vitest@4.1.1(@opentelemetry/api@1.9.0)(@types/node@25.5.0)(vite@8.0.2(@types/node@25.5.0)(yaml@2.8.3))))(dockerode@4.0.10)(drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(hono@4.12.9)(pg@8.20.0)(resend@6.9.4)(stripe@20.4.1(@types/node@25.5.0))(typescript@6.0.2)(ws@8.18.3)(zod@4.3.6))(typescript@6.0.2)(zod@4.3.6)':
+    dependencies:
+      '@noble/curves': 2.0.1
+      '@noble/hashes': 2.0.1
+      '@scure/bip32': 2.0.1
+      '@scure/bip39': 2.0.1
+      '@wopr-network/platform-core': 1.67.1(@trpc/server@11.15.0(typescript@6.0.2))(better-auth@1.5.6(@opentelemetry/api@1.9.0)(drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(pg@8.20.0)(vitest@4.1.1(@opentelemetry/api@1.9.0)(@types/node@25.5.0)(vite@8.0.2(@types/node@25.5.0)(yaml@2.8.3))))(dockerode@4.0.10)(drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(hono@4.12.9)(pg@8.20.0)(resend@6.9.4)(stripe@20.4.1(@types/node@25.5.0))(typescript@6.0.2)(ws@8.18.3)(zod@4.3.6)
+      viem: 2.47.6(typescript@6.0.2)(zod@4.3.6)
+    transitivePeerDependencies:
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - zod
+
+  '@wopr-network/platform-core@1.67.1(@trpc/server@11.15.0(typescript@6.0.2))(better-auth@1.5.6(@opentelemetry/api@1.9.0)(drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(pg@8.20.0)(vitest@4.1.1(@opentelemetry/api@1.9.0)(@types/node@25.5.0)(vite@8.0.2(@types/node@25.5.0)(yaml@2.8.3))))(dockerode@4.0.10)(drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(hono@4.12.9)(pg@8.20.0)(resend@6.9.4)(stripe@20.4.1(@types/node@25.5.0))(typescript@6.0.2)(ws@8.18.3)(zod@4.3.6)':
     dependencies:
       '@aws-sdk/client-ses': 3.1016.0
       '@hono/node-server': 1.19.11(hono@4.12.9)
@@ -2625,9 +2649,10 @@ snapshots:
       '@scure/bip32': 2.0.1
       '@scure/bip39': 2.0.1
       '@trpc/server': 11.15.0(typescript@6.0.2)
-      better-auth: 1.5.6(@opentelemetry/api@1.9.0)(drizzle-orm@0.45.1(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(pg@8.20.0)(vitest@4.1.1(@opentelemetry/api@1.9.0)(@types/node@25.5.0)(vite@8.0.2(@types/node@25.5.0)(yaml@2.8.3)))
+      '@wopr-network/crypto-plugins': 1.0.1(@wopr-network/platform-core@1.67.1(@trpc/server@11.15.0(typescript@6.0.2))(better-auth@1.5.6(@opentelemetry/api@1.9.0)(drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(pg@8.20.0)(vitest@4.1.1(@opentelemetry/api@1.9.0)(@types/node@25.5.0)(vite@8.0.2(@types/node@25.5.0)(yaml@2.8.3))))(dockerode@4.0.10)(drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(hono@4.12.9)(pg@8.20.0)(resend@6.9.4)(stripe@20.4.1(@types/node@25.5.0))(typescript@6.0.2)(ws@8.18.3)(zod@4.3.6))(typescript@6.0.2)(zod@4.3.6)
+      better-auth: 1.5.6(@opentelemetry/api@1.9.0)(drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(pg@8.20.0)(vitest@4.1.1(@opentelemetry/api@1.9.0)(@types/node@25.5.0)(vite@8.0.2(@types/node@25.5.0)(yaml@2.8.3)))
       dockerode: 4.0.10
-      drizzle-orm: 0.45.1(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0)
+      drizzle-orm: 0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0)
       handlebars: 4.7.8
       hono: 4.12.9
       js-yaml: 4.1.1
@@ -2645,6 +2670,54 @@ snapshots:
       - debug
       - typescript
       - utf-8-validate
+
+  '@wopr-network/platform-crypto-server@1.0.0(@opentelemetry/api@1.9.0)(@wopr-network/platform-core@1.67.1(@trpc/server@11.15.0(typescript@6.0.2))(better-auth@1.5.6(@opentelemetry/api@1.9.0)(drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(pg@8.20.0)(vitest@4.1.1(@opentelemetry/api@1.9.0)(@types/node@25.5.0)(vite@8.0.2(@types/node@25.5.0)(yaml@2.8.3))))(dockerode@4.0.10)(drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(hono@4.12.9)(pg@8.20.0)(resend@6.9.4)(stripe@20.4.1(@types/node@25.5.0))(typescript@6.0.2)(ws@8.18.3)(zod@4.3.6))(kysely@0.28.14)(typescript@6.0.2)(zod@4.3.6)':
+    dependencies:
+      '@hono/node-server': 1.19.11(hono@4.12.9)
+      '@noble/curves': 2.0.1
+      '@noble/hashes': 2.0.1
+      '@scure/base': 1.2.6
+      '@scure/bip32': 2.0.1
+      '@wopr-network/crypto-plugins': 1.0.1(@wopr-network/platform-core@1.67.1(@trpc/server@11.15.0(typescript@6.0.2))(better-auth@1.5.6(@opentelemetry/api@1.9.0)(drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(pg@8.20.0)(vitest@4.1.1(@opentelemetry/api@1.9.0)(@types/node@25.5.0)(vite@8.0.2(@types/node@25.5.0)(yaml@2.8.3))))(dockerode@4.0.10)(drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(hono@4.12.9)(pg@8.20.0)(resend@6.9.4)(stripe@20.4.1(@types/node@25.5.0))(typescript@6.0.2)(ws@8.18.3)(zod@4.3.6))(typescript@6.0.2)(zod@4.3.6)
+      drizzle-orm: 0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0)
+      hono: 4.12.9
+      pg: 8.20.0
+      viem: 2.47.6(typescript@6.0.2)(zod@4.3.6)
+    transitivePeerDependencies:
+      - '@aws-sdk/client-rds-data'
+      - '@cloudflare/workers-types'
+      - '@electric-sql/pglite'
+      - '@libsql/client'
+      - '@libsql/client-wasm'
+      - '@neondatabase/serverless'
+      - '@op-engineering/op-sqlite'
+      - '@opentelemetry/api'
+      - '@planetscale/database'
+      - '@prisma/client'
+      - '@tidbcloud/serverless'
+      - '@types/better-sqlite3'
+      - '@types/pg'
+      - '@types/sql.js'
+      - '@upstash/redis'
+      - '@vercel/postgres'
+      - '@wopr-network/platform-core'
+      - '@xata.io/client'
+      - better-sqlite3
+      - bufferutil
+      - bun-types
+      - expo-sqlite
+      - gel
+      - knex
+      - kysely
+      - mysql2
+      - pg-native
+      - postgres
+      - prisma
+      - sql.js
+      - sqlite3
+      - typescript
+      - utf-8-validate
+      - zod
 
   abitype@1.2.3(typescript@6.0.2)(zod@4.3.6):
     optionalDependencies:
@@ -2681,10 +2754,10 @@ snapshots:
     dependencies:
       tweetnacl: 0.14.5
 
-  better-auth@1.5.6(@opentelemetry/api@1.9.0)(drizzle-orm@0.45.1(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(pg@8.20.0)(vitest@4.1.1(@opentelemetry/api@1.9.0)(@types/node@25.5.0)(vite@8.0.2(@types/node@25.5.0)(yaml@2.8.3))):
+  better-auth@1.5.6(@opentelemetry/api@1.9.0)(drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))(pg@8.20.0)(vitest@4.1.1(@opentelemetry/api@1.9.0)(@types/node@25.5.0)(vite@8.0.2(@types/node@25.5.0)(yaml@2.8.3))):
     dependencies:
       '@better-auth/core': 1.5.6(@better-auth/utils@0.3.1)(@better-fetch/fetch@1.1.21)(@opentelemetry/api@1.9.0)(better-call@1.3.2(zod@4.3.6))(jose@6.2.2)(kysely@0.28.14)(nanostores@1.2.0)
-      '@better-auth/drizzle-adapter': 1.5.6(@better-auth/core@1.5.6(@better-auth/utils@0.3.1)(@better-fetch/fetch@1.1.21)(@opentelemetry/api@1.9.0)(better-call@1.3.2(zod@4.3.6))(jose@6.2.2)(kysely@0.28.14)(nanostores@1.2.0))(@better-auth/utils@0.3.1)(drizzle-orm@0.45.1(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))
+      '@better-auth/drizzle-adapter': 1.5.6(@better-auth/core@1.5.6(@better-auth/utils@0.3.1)(@better-fetch/fetch@1.1.21)(@opentelemetry/api@1.9.0)(better-call@1.3.2(zod@4.3.6))(jose@6.2.2)(kysely@0.28.14)(nanostores@1.2.0))(@better-auth/utils@0.3.1)(drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0))
       '@better-auth/kysely-adapter': 1.5.6(@better-auth/core@1.5.6(@better-auth/utils@0.3.1)(@better-fetch/fetch@1.1.21)(@opentelemetry/api@1.9.0)(better-call@1.3.2(zod@4.3.6))(jose@6.2.2)(kysely@0.28.14)(nanostores@1.2.0))(@better-auth/utils@0.3.1)(kysely@0.28.14)
       '@better-auth/memory-adapter': 1.5.6(@better-auth/core@1.5.6(@better-auth/utils@0.3.1)(@better-fetch/fetch@1.1.21)(@opentelemetry/api@1.9.0)(better-call@1.3.2(zod@4.3.6))(jose@6.2.2)(kysely@0.28.14)(nanostores@1.2.0))(@better-auth/utils@0.3.1)
       '@better-auth/mongo-adapter': 1.5.6(@better-auth/core@1.5.6(@better-auth/utils@0.3.1)(@better-fetch/fetch@1.1.21)(@opentelemetry/api@1.9.0)(better-call@1.3.2(zod@4.3.6))(jose@6.2.2)(kysely@0.28.14)(nanostores@1.2.0))(@better-auth/utils@0.3.1)
@@ -2701,7 +2774,7 @@ snapshots:
       nanostores: 1.2.0
       zod: 4.3.6
     optionalDependencies:
-      drizzle-orm: 0.45.1(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0)
+      drizzle-orm: 0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0)
       pg: 8.20.0
       vitest: 4.1.1(@opentelemetry/api@1.9.0)(@types/node@25.5.0)(vite@8.0.2(@types/node@25.5.0)(yaml@2.8.3))
     transitivePeerDependencies:
@@ -2797,7 +2870,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.45.1(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0):
+  drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(kysely@0.28.14)(pg@8.20.0):
     optionalDependencies:
       '@opentelemetry/api': 1.9.0
       kysely: 0.28.14

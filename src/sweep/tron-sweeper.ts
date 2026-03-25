@@ -11,7 +11,7 @@
 
 import { secp256k1 } from "@noble/curves/secp256k1.js";
 import { keccak_256 } from "@noble/hashes/sha3.js";
-import type { DepositInfo, ISweepStrategy, KeyPair, SweepResult } from "@wopr-network/platform-core/crypto-plugin";
+import type { DepositInfo, ISweepStrategy, KeyPair, SweepResult } from "@wopr-network/platform-crypto-server/plugin";
 import { sha256 } from "../tron/sha256.js";
 
 // TRX has 6 decimals (1 TRX = 1,000,000 SUN)

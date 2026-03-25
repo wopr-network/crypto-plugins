@@ -1,4 +1,4 @@
-import type { IPriceOracle, IWatcherCursorStore } from "@wopr-network/platform-core/crypto-plugin";
+import type { IPriceOracle, IWatcherCursorStore } from "@wopr-network/platform-crypto-server/plugin";
 
 /** In-memory mock cursor store for testing UTXO watchers. */
 export function createMockCursorStore(): IWatcherCursorStore & {
