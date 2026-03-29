@@ -19,3 +19,10 @@ export {
 	tronPlugin,
 	tronToHex,
 } from "./tron/index.js";
+export {
+	createTonApiCaller,
+	encodeTonAddress,
+	TonAddressEncoder,
+	TonWatcher,
+	tonPlugin,
+} from "./ton/index.js";
