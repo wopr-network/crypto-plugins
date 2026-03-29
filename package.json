@@ -1,6 +1,6 @@
 {
 	"name": "@wopr-network/crypto-plugins",
-	"version": "0.1.1",
+	"version": "1.4.0",
 	"packageManager": "pnpm@10.31.0",
 	"type": "module",
 	"bin": {
