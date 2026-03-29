@@ -8,7 +8,7 @@ import { TonAddressEncoder } from "./encoder.js";
 import { TonWatcher } from "./watcher.js";
 
 export { encodeTonAddress, TonAddressEncoder } from "./encoder.js";
-export type { JettonTransfer, TonAccountState, TonApiCall, TonTransaction } from "./types.js";
+export type { JettonTransferV3, TonAccountState, TonApiCall, TonTransaction } from "./types.js";
 export { createTonApiCaller, TonWatcher } from "./watcher.js";
 
 const encoder = new TonAddressEncoder();

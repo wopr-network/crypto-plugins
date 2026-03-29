@@ -34,13 +34,18 @@ export interface TonAccountState {
 	};
 }
 
-/** Jetton (TON token) transfer event. */
-export interface JettonTransfer {
-	sender: string;
+/** Jetton transfer from TON Center v3 /jetton/transfers API. */
+export interface JettonTransferV3 {
+	query_id: string;
+	source: string;
 	destination: string;
 	amount: string;
-	jettonMaster: string;
-	transactionHash: string;
-	lt: string;
-	utime: number;
+	source_wallet: string;
+	jetton_master: string;
+	transaction_hash: string;
+	transaction_lt: string;
+	transaction_now: number;
+	transaction_aborted: boolean;
+	response_destination: string;
+	forward_payload: string | null;
 }
